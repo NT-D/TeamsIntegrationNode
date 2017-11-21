@@ -30,10 +30,9 @@ var bot = new builder.UniversalBot(connector, function (session) {
 });
 
 bot.dialog('selectChannel',[
+    //Fetch channel list and shows them as button to select channel
     function(session){
-        //Get team id
         var teamId = session.message.sourceEvent.team.id;
-        //Fetch channel list
         connector.fetchChannelList(session.message.address.serviceUrl, teamId, function (err, result) {
             if (err) {
                 session.endDialog('There is some error. Try later');
@@ -59,6 +58,7 @@ bot.dialog('selectChannel',[
             }
         });
     },
+    //After selected channel, we'll send information to app.
     function(session,results)
     {
         if(results.response){
