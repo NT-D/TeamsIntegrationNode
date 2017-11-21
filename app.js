@@ -36,7 +36,7 @@ bot.dialog('selectChannel',[
         //Fetch channel list
         connector.fetchChannelList(session.message.address.serviceUrl, teamId, function (err, result) {
             if (err) {
-                session.endDialog('There is some error');
+                session.endDialog('There is some error. Try later');
             }
             else {
                 var channels = {};
@@ -55,7 +55,6 @@ bot.dialog('selectChannel',[
                     }
                 });
                 session.userData.channels = channels;
-                //Will show channel list as button           
                 builder.Prompts.choice(session,"WHich channel do you want to use?",channels,{listStyle:3});
             }
         });
@@ -65,7 +64,25 @@ bot.dialog('selectChannel',[
         if(results.response){
             var channels = session.userData.channels;
             var selectedOption = channels[results.response.entity];
-            session.endDialog("You selected "+selectedOption.name +" channel (Id: "+selectedOption.id+"");
+
+            //fetch member list
+            var conversationId = session.message.address.conversation.id;
+            var adminUserInfo;
+            connector.fetchMembers(session.message.address.serviceUrl, conversationId, function (err, result) {
+                if (err) {
+                    session.endDialog('There is some error. Try later');            
+                }
+                else {
+                    result.forEach(function(user){
+                        if(user.id === session.message.user.id){
+                            adminUserInfo = user;
+                            // break;
+                        }
+                    });
+                }
+                session.send("Hello "+adminUserInfo.givenName + adminUserInfo.surname +"(upn: "+ adminUserInfo.userPrincipalName+")")
+                session.endDialog("You selected "+selectedOption.name +" channel (Id: "+selectedOption.id+"");
+            });
         }
         else{
             session.send("Oops. Please try later");
