@@ -8,7 +8,11 @@
             "type": "node",
             "request": "launch",
             "name": "Launch Program",
-            "program": "${workspaceFolder}/app.js"
+            "program": "${workspaceFolder}/app.js",
+            "env":{
+                "MICROSOFT_APP_ID":"<Your App ID>",
+                "MICROSOFT_APP_PASSWORD":"<Your App Secret>"
+            }
         }
     ]
 }
