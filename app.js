@@ -2,8 +2,10 @@ var restify = require('restify');
 var builder = require('botbuilder');
 var teams = require("botbuilder-teams");
 var request = require('request');
+var azure = require('botbuilder-azure');
 var notifyteams = require('./notifyteams');
 var mockapp = require('./mockapp');
+var settings = require('./setting');
 
 // Setup Restify Server
 var server = restify.createServer();
@@ -27,10 +29,14 @@ server.post('/api/messages', connector.listen());
 server.post('/api/notifyteams',notifyteams.notify);
 server.post('/api/mock',mockapp.savedata);//For test purpose for this project
 
+//Setup state storage with Azure
+var docDbClient = new azure.DocumentDbClient(settings.documentDbOptions);
+var cosmosStorage = new azure.AzureBotStorage({ gzipData: false }, docDbClient);
+
 // Receive messages from the user and respond by echoing each message back (prefixed with 'You said:')
 var bot = new builder.UniversalBot(connector, function (session) {
     session.send(": %s", session.message.text);
-});
+}).set('storage', cosmosStorage);//Set Cosmos DB as state storage
 
 bot.dialog('selectChannel',[
     //Fetch channel list and shows them as button to select channel

@@ -12,7 +12,11 @@
             "env":{
                 "MICROSOFT_APP_ID":"<Your App ID>",
                 "MICROSOFT_APP_PASSWORD":"<Your App Secret>",
-                "API_ENDPOINT":"http://localhost:3978/api/mock"                
+                "COSMOS_DB_URI":"<Your Cosmos DB URI>", 
+                "COSMOS_DB_KEY":"<Your Cosmos DB Key>", 
+                "DB_NAME":"botdb",
+                "COLLECTION_NAME":"botcollection",
+                "API_ENDPOINT":"http://localhost:3978/api/mock"
             }
         }
     ]
