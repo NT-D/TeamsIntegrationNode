@@ -25,7 +25,7 @@ server.use(restify.plugins.bodyParser(
 // Listen for messages from users 
 server.post('/api/messages', connector.listen());
 server.post('/api/notifyteams',notifyteams.notify);
-server.post('/api/mock',mockapp.savedata);
+server.post('/api/mock',mockapp.savedata);//For test purpose for this project
 
 // Receive messages from the user and respond by echoing each message back (prefixed with 'You said:')
 var bot = new builder.UniversalBot(connector, function (session) {
@@ -95,7 +95,7 @@ bot.dialog('selectChannel',[
 
                 //Make request options
                 const options = {
-                    url:'http://localhost:3978/api/mock',
+                    url: process.env.API_ENDPOINT,
                     method: "POST",
                     json: requestData
                 }

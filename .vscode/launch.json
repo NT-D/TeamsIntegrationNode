@@ -11,7 +11,8 @@
             "program": "${workspaceFolder}/app.js",
             "env":{
                 "MICROSOFT_APP_ID":"<Your App ID>",
-                "MICROSOFT_APP_PASSWORD":"<Your App Secret>"
+                "MICROSOFT_APP_PASSWORD":"<Your App Secret>",
+                "API_ENDPOINT":"http://localhost:3978/api/mock"                
             }
         }
     ]
