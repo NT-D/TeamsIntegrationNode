@@ -1,7 +1,9 @@
 var restify = require('restify');
 var builder = require('botbuilder');
-var notifyteams = require('./notifyteams');
 var teams = require("botbuilder-teams");
+var request = require('request');
+var notifyteams = require('./notifyteams');
+var mockapp = require('./mockapp');
 
 // Setup Restify Server
 var server = restify.createServer();
@@ -23,6 +25,7 @@ server.use(restify.plugins.bodyParser(
 // Listen for messages from users 
 server.post('/api/messages', connector.listen());
 server.post('/api/notifyteams',notifyteams.notify);
+server.post('/api/mock',mockapp.savedata);
 
 // Receive messages from the user and respond by echoing each message back (prefixed with 'You said:')
 var bot = new builder.UniversalBot(connector, function (session) {
@@ -80,12 +83,40 @@ bot.dialog('selectChannel',[
                         }
                     });
                 }
-                session.send("Hello "+adminUserInfo.givenName + adminUserInfo.surname +"(upn: "+ adminUserInfo.userPrincipalName+")")
-                session.endDialog("You selected "+selectedOption.name +" channel (Id: "+selectedOption.id+"");
+
+                //Compose data for sending app
+                var requestData = {
+                    "tenantId":session.message.sourceEvent.tenant.id,
+                    "teamId":session.message.sourceEvent.team.id,
+                    "channelId":selectedOption.id,
+                    "botserviceurl":session.message.serviceUrl,
+                    "adminupn":adminUserInfo.userPrincipalName,
+                    "adminname":adminUserInfo.givenName + " " + adminUserInfo.surname
+                };
+
+                //Make request options
+                const options = {
+                    url:'http://localhost:3978/api/mock',
+                    method: "POST",
+                    json: requestData
+                }
+
+                //Send information for users
+                request(options,function(error,response,body){
+                    if(!error && response.statusCode == 200){
+                        session.send("I sent information to app correctrly :)");
+                        session.send("Hello "+adminUserInfo.givenName + adminUserInfo.surname +"(upn: "+ adminUserInfo.userPrincipalName+")")
+                        session.endDialog("You selected "+selectedOption.name +" channel (Id: "+selectedOption.id+"");
+                    }
+                    else{
+                        session.endDialog("Oops. can't send information correctry to app.. Please try later");
+                    }
+                });
+
             });
         }
         else{
-            session.send("Oops. Please try later");
+            session.send("Oops. can't fetch members from Microsoft Teams, please try later");
         }
     }
 ]).triggerAction({
