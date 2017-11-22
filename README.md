@@ -1,9 +1,10 @@
 # TeamsIntegrationNode
 
-## Todo
+## My Todos
 - Add Use case
 - Add Architecture
 - Add manifest.json for slideload
+- Add CosmosDB integration for state service
 - Add Instruction for local debug with Teams
 - Add Instruction for deploy to Azure
 
