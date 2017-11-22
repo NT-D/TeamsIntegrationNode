@@ -15,10 +15,10 @@ exports.notify = function(req,res,next){
         channelId:'msteams',//We expect to use Microsoft Teams channel
         bot:{id:"28:"+process.env.MICROSOFT_APP_ID},
         conversation:{
-            id:req.params.channelId,
+            id:req.params.channel_id,
             isGroup:true
         },
-        serviceUrl:'https://smba.trafficmanager.net/amer-client-ss.msg/'
+        serviceUrl:req.params.bot_service_url
     }
 
     var bot = new builder.UniversalBot(connector);

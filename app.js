@@ -86,12 +86,11 @@ bot.dialog('selectChannel',[
 
                 //Compose data for sending app
                 var requestData = {
-                    "tenantId":session.message.sourceEvent.tenant.id,
-                    "teamId":session.message.sourceEvent.team.id,
-                    "channelId":selectedOption.id,
-                    "botserviceurl":session.message.serviceUrl,
-                    "adminupn":adminUserInfo.userPrincipalName,
-                    "adminname":adminUserInfo.givenName + " " + adminUserInfo.surname
+                    "tenant_id":session.message.sourceEvent.tenant.id,
+                    "team_id":session.message.sourceEvent.team.id,
+                    "channel_id":selectedOption.id,
+                    "bot_service_url":session.message.serviceUrl,
+                    "admin_upn":adminUserInfo.userPrincipalName,
                 };
 
                 //Make request options
