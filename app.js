@@ -127,3 +127,27 @@ bot.dialog('selectChannel',[
 ]).triggerAction({
     matches:/.*select.*/i,
 })
+
+bot.on('conversationUpdate', function (message) {
+    if (message.membersAdded) {
+        message.membersAdded.forEach(function (identity) {
+            if (identity.id == message.address.bot.id) {
+                // Welcome function is here.
+                var reply = new builder.Message()
+                        .address(message.address)
+                        .text("Hello! If you want to change the notify channel (default: General), Please type *select* to me!");
+                bot.send(reply);
+            }
+        });
+    }
+    else if (message.membersRemoved) {
+        var botId = message.address.bot.id;
+        for (var i = 0; i < message.membersRemoved.length; i++) {
+            if (message.membersRemoved[i].id === botId) {
+                // Good bye function is here. Because bot is already removed, bot cannot talk
+                console.log("good bye");
+                break;
+            }
+        }
+    }
+});
