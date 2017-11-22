@@ -1,6 +1,8 @@
 # TeamsIntegrationNode
 
 ## Todo
+- Add Use case
+- Add Architecture
 - Add manifest.json for slideload
 - Add Instruction for local debug with Teams
 - Add Instruction for deploy to Azure

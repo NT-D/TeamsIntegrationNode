@@ -57,7 +57,7 @@ bot.dialog('selectChannel',[
                     }
                 });
                 session.userData.channels = channels;
-                builder.Prompts.choice(session,"WHich channel do you want to use?",channels,{listStyle:3});
+                builder.Prompts.choice(session,"Which channel do you want to use?",channels,{listStyle:3});
             }
         });
     },
