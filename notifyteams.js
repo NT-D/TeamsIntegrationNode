@@ -2,7 +2,7 @@ var builder = require('botbuilder');
 
 exports.notify = function(req,res,next){
     console.log("Notify Test!");
-    console.log("Send notification to : "+ req.params.channelId);
+    console.log("Send notification to : "+ req.params.channel_id);
 
     //Create Bot Connector for sending notification
     var connector = new builder.ChatConnector({
@@ -20,11 +20,13 @@ exports.notify = function(req,res,next){
         },
         serviceUrl:req.params.bot_service_url
     }
+    console.log(address);
 
     //TODO add rich card for sending bot: Merge from notify_app.js by Nagao-san
     var bot = new builder.UniversalBot(connector);
     var msg = new builder.Message().address(address);
     msg.text(req.params.message);
+    console.log(msg);
     bot.send(msg);
 
     //reply response as Rest API.
