@@ -13,7 +13,7 @@ exports.notify = function(req,res,next){
     //Make address for posting information
     var address = {
         channelId:'msteams',//We expect to use Microsoft Teams channel
-        bot:{id:"28:"+process.env.MICROSOFT_APP_ID},
+        bot:{id:"28:"+process.env.MICROSOFT_APP_ID},//Try to delete
         conversation:{
             id:req.params.channel_id,
             isGroup:true
@@ -21,6 +21,7 @@ exports.notify = function(req,res,next){
         serviceUrl:req.params.bot_service_url
     }
 
+    //TODO add rich card for sending bot: Merge from notify_app.js by Nagao-san
     var bot = new builder.UniversalBot(connector);
     var msg = new builder.Message().address(address);
     msg.text(req.params.message);
