@@ -89,7 +89,7 @@ bot.dialog('selectChannel',[
                     "tenant_id":session.message.sourceEvent.tenant.id,
                     "team_id":session.message.sourceEvent.team.id,
                     "channel_id":selectedOption.id,
-                    "bot_service_url":session.message.serviceUrl,
+                    "bot_service_url":session.message.address.serviceUrl,
                     "admin_upn":adminUserInfo.userPrincipalName,
                 };
 
